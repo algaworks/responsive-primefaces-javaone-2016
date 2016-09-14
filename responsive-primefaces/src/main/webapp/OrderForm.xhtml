@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta charset="UTF-8" />
+	</f:facet>
+
+	<title>AlgaWorks</title>
+	
+	<h:outputStylesheet library="javaone" name="app.css" />
+</h:head>
+
+<h:body>
+	<h:form id="frm">
+		
+		<p:toolbar>
+			<p:toolbarGroup>
+				<p:commandButton value="Save" action="#{orderManagerController.save}"
+					process="@this masterPanel" update="@form" />
+			</p:toolbarGroup>
+		</p:toolbar>
+		
+		<p:messages autoUpdate="false" />
+		
+		<p:panelGrid id="masterPanel" columns="4" 
+			style="margin-top: 20px; margin-bottom: 40px">
+		
+			<p:outputLabel value="Customer name" for="customer" />
+			<p:inputText id="customer" value="#{orderManagerController.order.customer}" />
+			
+			<p:outputLabel value="Phone number" for="phone" />
+			<p:inputText id="phone" value="#{orderManagerController.order.phone}" />
+			
+			<p:outputLabel value="Payment method" for="paymentMethod" />
+			<p:selectOneMenu id="paymentMethod" value="#{orderManagerController.order.paymentMethod}">
+				<f:selectItem itemLabel="Select" />
+				<f:selectItem itemLabel="Credit Card" itemValue="Credit Card" />
+				<f:selectItem itemLabel="Deposit" itemValue="Deposit" />
+				<f:selectItem itemLabel="Cash" itemValue="Cash" />
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Delivery date" for="deliveryDate"/>
+			<p:calendar id="deliveryDate" pattern="MM/dd/yyyy" 
+				value="#{orderManagerController.order.deliveryDate}"/>
+		</p:panelGrid>
+		
+		<p:commandButton value="New line" action="#{orderManagerController.newLine}"
+			oncomplete="PF('lineDialog').show()" process="@this" update="linePanel">
+			<p:resetInput target="linePanel" />
+		</p:commandButton>
+		
+		<p:dataTable id="linesTable" value="#{orderManagerController.order.lines}" var="line"
+			emptyMessage="No line added yet."
+			style="margin-top: 10px">
+			
+			<p:column headerText="Description">
+				<h:outputText value="#{line.description}"/>
+			</p:column>
+			
+			<p:column headerText="Type">
+				<h:outputText value="#{line.type.description}"/>
+			</p:column>
+			
+			<p:column headerText="Price">
+				<h:outputText value="#{line.price}">
+					<f:convertNumber type="currency" />
+				</h:outputText>
+			</p:column>
+		
+		</p:dataTable>
+		
+		<p:dialog widgetVar="lineDialog" header="New line"
+			resizable="false" style="min-width: 300px">
+			
+			<h:panelGroup id="linePanel" layout="block">
+				<p:messages id="msgDialog" autoUpdate="false" />
+				
+				<p:panelGrid columns="2">
+				
+					<p:outputLabel value="Description" for="description" />
+					<p:inputText id="description" value="#{orderManagerController.line.description}" />
+					
+					<p:outputLabel value="Type" for="type" />
+					<p:selectOneMenu id="type" value="#{orderManagerController.line.type}">
+						<f:selectItem itemLabel="Select" />
+						<f:selectItem itemLabel="Product" itemValue="PRODUCT" />
+						<f:selectItem itemLabel="Service" itemValue="SERVICE" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Price" for="price" />
+						<p:inputText id="price" value="#{orderManagerController.line.price}">
+						<f:convertNumber />
+					</p:inputText>
+					
+					<p:outputLabel/>
+					<p:commandButton value="Add line" action="#{orderManagerController.addLine}"
+						process="linePanel" update="linePanel linesTable"
+						oncomplete="if (!args.validationFailed) PF('lineDialog').hide()" />
+				</p:panelGrid>
+				
+			</h:panelGroup>
+			
+		</p:dialog>
+		
+	</h:form>
+
+</h:body>
+</html>

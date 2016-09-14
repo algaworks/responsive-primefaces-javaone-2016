@@ -1,0 +1,24 @@
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.box {
+	background-color: #1e94d2;
+	color: #fff;
+	
+	padding: 30px 15px;
+	margin: 10px;
+}
+
+.box > h2 {
+	font-size: 14px;
+	font-weight: normal;
+	
+	padding: 0;
+	margin: 0;
+}
+
+.box > span {
+	font-size: 40px;
+	font-weight: 400;
+}
