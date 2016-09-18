@@ -7,7 +7,7 @@ body {
 	color: #fff;
 	
 	padding: 30px 15px;
-	margin: 10px;
+	/*margin: 10px;*/
 }
 
 .box > h2 {
@@ -22,3 +22,19 @@ body {
 	font-size: 40px;
 	font-weight: 400;
 }
+
+
+/*
+@media (min-width: 640px) {
+	.box {
+		float: left;
+		width: calc(50% - 50px);
+	}
+}
+
+@media (min-width: 960px) {
+	.box {
+		width: calc(33.33% - 50px);
+	}
+}
+*/
